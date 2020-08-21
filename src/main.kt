@@ -14,8 +14,10 @@ object Parking {
         repeat(spotCount) {
             spots.add(Spot(null))
         }
+        spots[0].car = Car("regNumber", "carColor")
 
         while (working) {
+            working = false
             val action = scanner.next()!!
 
             when (action) {
@@ -26,8 +28,17 @@ object Parking {
                     if (freeSpot == -1) {
                         println("There is no free spot")
                     } else {
-                        spots.set(freeSpot, Spot(Car(regNumber, carColor)))
+                        spots[freeSpot].car = Car(regNumber, carColor)
                         println("$carColor car parked in spot ${freeSpot + 1}.")
+                    }
+                }
+                "leave" -> {
+                    val spotNumber = scanner.nextInt()
+                    if (spots[spotNumber - 1].isEmpty) {
+                        println("There is no car in spot $spotNumber.")
+                    } else {
+                        println("Spot $spotNumber is free.")
+                        spots[spotNumber - 1].car = null
                     }
                 }
                 else -> println("wrong action")
