@@ -7,17 +7,15 @@ fun main() {
 }
 
 object Parking {
-    val spotCount = 2
+    val spotCount = 20
     val spots: MutableList<Spot> = mutableListOf()
     var working = true
     fun start(){
         repeat(spotCount) {
             spots.add(Spot(null))
         }
-        spots[0].car = Car("regNumber", "carColor")
 
         while (working) {
-            working = false
             val action = scanner.next()!!
 
             when (action) {
@@ -26,7 +24,7 @@ object Parking {
                     val carColor = scanner.next()!!
                     val freeSpot = findEmptySpot()
                     if (freeSpot == -1) {
-                        println("There is no free spot")
+                        println("Sorry, the parking lot is full.")
                     } else {
                         spots[freeSpot].car = Car(regNumber, carColor)
                         println("$carColor car parked in spot ${freeSpot + 1}.")
@@ -41,6 +39,7 @@ object Parking {
                         spots[spotNumber - 1].car = null
                     }
                 }
+                "exit" -> working = false
                 else -> println("wrong action")
             }
         }
