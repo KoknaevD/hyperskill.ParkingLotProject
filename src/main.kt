@@ -52,11 +52,76 @@ object Parking {
                         printStatus()
                     }
                 }
+                "reg_by_color" -> {
+                    val carColor = scanner.next()!!
+                    if (spots.isEmpty())  {
+                        println("Sorry, a parking lot has not been created.")
+                    } else {
+                        findCarsByColor(carColor)
+                    }
+                }
+                "spot_by_color" -> {
+                    val carColor = scanner.next()!!
+                    if (spots.isEmpty())  {
+                        println("Sorry, a parking lot has not been created.")
+                    } else {
+                        findSpotsByColor(carColor)
+                    }
+                }
+                "spot_by_reg" -> {
+                    val regNumber = scanner.next()!!
+                    if (spots.isEmpty())  {
+                        println("Sorry, a parking lot has not been created.")
+                    } else {
+                        findSpotsByReg(regNumber)
+                    }
+                }
                 "exit" -> working = false
                 else -> println("wrong action")
             }
         }
     }
+
+    private fun findSpotsByReg(regNumber: String) {
+        var first = true
+        spots.forEachIndexed { index, spot ->
+            if (spot.car?.regNumber == regNumber) {
+                if (!first) print(", ")
+                print(index + 1)
+                first = false
+            }
+        }
+        if (first) println("No cars with registration number $regNumber were found.")
+        else println()
+    }
+
+    private fun findSpotsByColor(carColor: String) {
+        val tempColorLowerCase = carColor.toLowerCase()
+        var first = true
+        spots.forEachIndexed { index, spot ->
+            if (spot.car?.carColor?.toLowerCase() == tempColorLowerCase) {
+                if (!first) print(", ")
+                print(index + 1)
+                first = false
+            }
+        }
+        if (first) println("No cars with color $carColor were found.")
+        else println()
+    }
+
+    private fun findCarsByColor(carColor: String) {
+        val tempColorLowerCase = carColor.toLowerCase()
+        val cars = spots.filter { it.car?.carColor?.toLowerCase() == tempColorLowerCase }
+        var first = true
+        cars.forEach {
+            if (!first) print(", ")
+            print(it.car?.regNumber)
+            first = false
+        }
+        if (cars.isEmpty()) println("No cars with color $carColor were found.")
+        else println()
+    }
+
 
     private fun printStatus(){
         var empty = true
